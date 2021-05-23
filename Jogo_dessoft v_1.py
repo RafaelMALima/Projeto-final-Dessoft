@@ -23,6 +23,14 @@ def desenha_grade():
         pygame.draw.line(tela, (255,255,255),(0,linha*tamanho_casa),(largura,linha*tamanho_casa))
         pygame.draw.line(tela, (255,255,255),(linha*tamanho_casa,0),(linha*tamanho_casa,altura))
 
+class Jogador ():
+    def__init__ (self, x, y):
+        img = pygame.image.load('img/guy1.png')
+        self.image = pygame.tranform.scale(img, (40,80))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        
 #carrega um dado mapa, e coloca-o na tela. Para adicionar novas coisas ao mapa, basta carregar a imagem, copiar e colar o cófigo da linha 36 à 42, trocando o if por elif, trocar o nome da imagem transformada e adicionar um número correspondente. 
 class Mundo():
     def __init__(self,data):
@@ -70,7 +78,7 @@ mapa = [
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 ]
 mundo = Mundo(mapa)
-
+jogador= Jogador(100,screen_height - 130)
 
 jogo = True
 
