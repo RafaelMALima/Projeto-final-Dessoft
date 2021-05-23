@@ -47,9 +47,14 @@ class Jogador ():
         self.direcao = 0
         
 def atualiza(self):
+    #desenha personagem na tela
+    screen.blit(self.image, self.rect)
+    
+    
     dx = 0
     dy = 0
     cooldown_andar = 5
+    
     # teclas pressionadas
     key = pygame.key.get_pressed()
     if key[pygame.K_SAPCE] and self.pular == False:
@@ -71,17 +76,31 @@ def atualiza(self):
         if self.direcao == 1:
             self.image = self.imagens_direita[self.index] 
         if self.direcao == -1:
-            self.image = self.imagens_esquerda[self.index] 
+            self.image = self.imagens_esquerda[self.index]
+    
+        #confirmar que nao houve colisao
+        
+        # atualiza a posicao do jogador
+        self.rect.x += dx
+        self.rect.y += dy
+        
+        if self.rect.bottom > altura:
+            self.rect.bottom= altura
+            dy=0
+     
         
     # controla animação
     if self.counter > cooldown_andar:
-        self.counter = 0        self.index += 1
+        self.counter = 0        
+        self.index += 1
         if self.index >= len(self.imagens_direita):
             self.index = 0
         if self.direcao == 1:
             self.image = self.imagens_direita[self.index] 
         if self.direcao == -1:
             self.image = self.imagens_esquerda[self.index] 
+            
+            
     # adiciona gravidade
     self.vel_y += 1
     if self.vel_y > 10:
@@ -139,19 +158,22 @@ mapa = [
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 ]
 mundo = Mundo(mapa)
-jogador= Jogador(100,screen_height - 130)
+jogador= Jogador(100,altura - 130)
 
 jogo = True
-
-
 while jogo == True:
+    
     clock.tick(fps)
     tela.blit(fundo,(0,0))
+    
+    
     desenha_grade()
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             jogo = False
     mundo.draw()
+    jogador.update()
     pygame.display.update()
 
 pygame.quit()
