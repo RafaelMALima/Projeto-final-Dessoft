@@ -48,7 +48,7 @@ class Jogador ():
         
 def atualiza(self):
     #desenha personagem na tela
-    screen.blit(self.image, self.rect)
+    tela.blit(self.image, self.rect)
     
     
     dx = 0
