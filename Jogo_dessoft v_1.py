@@ -47,14 +47,10 @@ class Jogador ():
         self.direcao = 0
         
 def atualiza(self):
-    #desenha personagem na tela
-    tela.blit(self.image, self.rect)
-    
-    
-    dx = 0
-    dy = 0
-    cooldown_andar = 5
-    
+   dx = 0
+   dy = 0
+   cooldown_andar = 5
+
     # teclas pressionadas
     key = pygame.key.get_pressed()
     if key[pygame.K_SPACE] and self.pular == False:
