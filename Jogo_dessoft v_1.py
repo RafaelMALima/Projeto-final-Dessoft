@@ -27,7 +27,7 @@ def desenha_grade():
         pygame.draw.line(tela, (255,255,255),(linha*tamanho_casa,0),(linha*tamanho_casa,altura))
 
 class Jogador ():
-    def__init__ (self, x, y):
+    def __init__ (self, x, y):
         self.imagens_direita = []
         self.imagens_esquerda = []
         self.index = 0
