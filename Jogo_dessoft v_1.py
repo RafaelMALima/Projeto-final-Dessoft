@@ -78,16 +78,6 @@ def atualiza(self):
         if self.direcao == -1:
             self.image = self.imagens_esquerda[self.index]
     
-        #confirmar que nao houve colisao
-        
-        # atualiza a posicao do jogador
-        self.rect.x += dx
-        self.rect.y += dy
-        
-        if self.rect.bottom > altura:
-            self.rect.bottom= altura
-            dy=0
-     
         
     # controla animação
     if self.counter > cooldown_andar:
@@ -106,6 +96,18 @@ def atualiza(self):
     if self.vel_y > 10:
         self.vel_y = 10
     dy += self.vel_y
+    
+    #confirmar que nao houve colisao
+        
+    # atualiza a posicao do jogador
+    self.rect.x += dx
+    self.rect.y += dy
+        
+    if self.rect.bottom > altura:
+        self.rect.bottom= altura
+        dy=0
+     # poe o jogador na tela
+    tela.blit(self.image, self.rect)
         
     
     
