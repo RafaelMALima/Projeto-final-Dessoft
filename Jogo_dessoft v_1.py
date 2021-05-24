@@ -35,7 +35,7 @@ class Jogador ():
         for num in range(1, 5):
             img_direita = pygame.image.load(f'img/guy{num}.png')
             img_direita = pygame.tranform.scale(img_direita, (40,80))
-            img_direita = pygame.transform.flip(img_direita, True, False)
+            img_esquerda = pygame.transform.flip(img_direita, True, False)
             self.imagens_direita.append(img_direita)
             self.imagens_esquerda.append(img_esquerda)
         self.image = self.imagens_direita[self.index]
@@ -57,20 +57,20 @@ def atualiza(self):
     
     # teclas pressionadas
     key = pygame.key.get_pressed()
-    if key[pygame.K_SAPCE] and self.pular == False:
+    if key[pygame.K_SPACE] and self.pular == False:
         self.vel_y = -15
         self.pular = True
     if key[pygame.K_SPACE] == False:
         self.pular = False
-    if key[pygame.K_ESQUERDA]:
+    if key[pygame.K_LEFT]:
         dx -= 5
         self.counter += 1
         self.direcao = -1
-    if key[pygame.K_DIREITA]:
+    if key[pygame.K_RIGHT]:
         dx += 5
         self.counter += 1
         self.direcao = 1
-    if key[pygame.K_ESQUERDA] == False and key[pygame.K_DIREITA] == False:
+    if key[pygame.K_LEFT] == False and key[pygame.K_RIGHT] == False:
         self.counter = 0
         self.index = 0
         if self.direcao == 1:
