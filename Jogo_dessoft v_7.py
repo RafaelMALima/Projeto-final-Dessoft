@@ -17,7 +17,7 @@ pygame.display.set_caption("Projeto Dessoft")
 grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group() 
 
-fundo = pygame.image.load("Assets/Fundos/castle.jpg")
+fundo = pygame.image.load("Assets/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 
 #define o tamanho das casas
@@ -213,7 +213,7 @@ class Espinhos (pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         imagem_espinho = pygame.image.load("Assets/espinhos.png")
-        self.imagem = pygame.trasform.scale (imagem_espinho, (tamanho_casa, tamanho_casa //2))
+        self.image = pygame.transform.scale(imagem_espinho, (tamanho_casa, tamanho_casa //2))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -228,7 +228,7 @@ mapa = [
 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1],
 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1,1,1],
 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,1,0,0,0,0,0,1],
-[1,0,0,1,1,1,0,3,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,1,1,1,6,6,6,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 [1,1,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
