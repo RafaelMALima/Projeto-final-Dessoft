@@ -17,7 +17,7 @@ pygame.display.set_caption("Projeto Dessoft")
 grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group() 
 
-fundo = pygame.image.load("Assets/castle.jpg")
+fundo = pygame.image.load("Assets/Fundos/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 
 #define o tamanho das casas
