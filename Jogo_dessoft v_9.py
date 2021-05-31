@@ -18,11 +18,11 @@ pygame.display.set_caption("Projeto Dessoft")
 grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group() 
 
-fundo = pygame.image.load("Assets/castle.jpg")
+fundo = pygame.image.load("Assets/Fundos/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 imagem_restart = pygame.image.load("Assets/botao_restart_placeholder.png")
-imagem_start = pygame.image.load('img/botao_start.png')
-imagem_exit = pygame.image.load('img/botao_exit.png')
+imagem_start = pygame.image.load('Assets/botao_restart_placeholder.png')
+imagem_exit = pygame.image.load('Assets/botao_restart_placeholder.png')
 
 class botao():
     def __init__(self,x,y,image):
@@ -211,10 +211,13 @@ class Inimigo(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.imagens = []
+        self.imagens_invertidas = []
         for i in range(1,6):
             imagens_mago = pygame.image.load("Assets/mago{0}.png".format(i))
             imagens_mago = pygame.transform.scale(imagens_mago,(70,100))
             self.imagens.append(imagens_mago)
+        for i in range (len(self.imagens)):
+            self.imagens_invertidas.append(pygame.transform.flip(self.imagens[i],True,False))
         self.indice = 0
         self.image = self.imagens[self.indice]
         self.rect = self.image.get_rect()
@@ -222,14 +225,22 @@ class Inimigo(pygame.sprite.Sprite):
         self.rect.y = y
         self.muda_direcao = 1
         self.contador_muda_direcao = 0
+        self.timer = 0
 
     def update(self):
         self.rect.x += self.muda_direcao
         self.contador_muda_direcao += 1
-        if self.indice <= 6:
-            self.indice +=1
-        else:
-            self.indice = 0
+        if self.timer == 15:
+            if self.muda_direcao > 0:
+                self.image = self.imagens[self.indice]
+            else:
+                self.image = self.imagens_invertidas[self.indice]
+            if self.indice < len(self.imagens) - 1:
+                self.indice +=1
+            else:
+                self.indice = 0
+            self.timer = 0
+        self.timer += 1
         if abs(self.contador_muda_direcao) > 50:
             self.muda_direcao *= -1
             self.contador_muda_direcao *= -1
@@ -285,9 +296,9 @@ while jogo == True:
     tela.blit(fundo,(0,0))
 
     if menu_principal == True:
-        if botao_saida.draw():
+        if botao_saida.desenha():
             jogo = False
-        if botao_inicia.draw():
+        if botao_inicia.desenha():
             menu_principal = False
     else:
         mundo.desenha()
