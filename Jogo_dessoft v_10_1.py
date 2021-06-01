@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-import pickle
+import json
 from os import path
 
 pygame.init()
@@ -28,11 +28,11 @@ grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group()
 grupo_saida = pygame.sprite.Group() 
 
-fundo = pygame.image.load("Assets/castle.jpg")
+fundo = pygame.image.load("Assets/Fundos/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 imagem_restart = pygame.image.load("Assets/botao_restart_placeholder.png")
-imagem_start = pygame.image.load('img/botao_start.png')
-imagem_exit = pygame.image.load('img/botao_exit.png')
+imagem_start = pygame.image.load('Assets/botao_restart_placeholder.png')
+imagem_exit = pygame.image.load('Assets/botao_restart_placeholder.png')
 
 # funcoes para reiniciar fases
 def reinicia_fase(fase):
@@ -41,9 +41,10 @@ def reinicia_fase(fase):
     grupo_espinho.empty()
     grupo_saida.empty()
     #carrega uma fase e cria o mundo
-    if path.exists(f'fase{fase}_data'):
-        pickle_in = open(f'fase{fase}_data', 'rb')
-        mapa = pickle.load(pickle_in)
+    mapa = []
+    if path.exists(f'fase{fase}'):
+        with open(f'fase{fase}', 'rb') as json_in:
+            mapa = json.load(json_in)
     mundo = Mundo(mapa)
 
     return mundo
@@ -223,9 +224,7 @@ class Mundo():
                     saida = Saida(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - (tamanho_casa // 2))
                     grupo_saida.add(saida)
                 conta_colunas += 1
-            conta_linhas += 1
-
-                   
+            conta_linhas += 1   
 
     def desenha(self):
         for casa in self.lista_casas:
@@ -235,10 +234,13 @@ class Inimigo(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.imagens = []
+        self.imagens_invertidas = []
         for i in range(1,6):
             imagens_mago = pygame.image.load("Assets/mago{0}.png".format(i))
             imagens_mago = pygame.transform.scale(imagens_mago,(70,100))
             self.imagens.append(imagens_mago)
+        for i in range (len(self.imagens)):
+            self.imagens_invertidas.append(pygame.transform.flip(self.imagens[i],True,False))
         self.indice = 0
         self.image = self.imagens[self.indice]
         self.rect = self.image.get_rect()
@@ -246,14 +248,22 @@ class Inimigo(pygame.sprite.Sprite):
         self.rect.y = y
         self.muda_direcao = 1
         self.contador_muda_direcao = 0
+        self.timer = 0
 
     def update(self):
         self.rect.x += self.muda_direcao
         self.contador_muda_direcao += 1
-        if self.indice <= 6:
-            self.indice +=1
-        else:
-            self.indice = 0
+        if self.timer == 15:
+            if self.muda_direcao > 0:
+                self.image = self.imagens[self.indice]
+            else:
+                self.image = self.imagens_invertidas[self.indice]
+            if self.indice < len(self.imagens) - 1:
+                self.indice +=1
+            else:
+                self.indice = 0
+            self.timer = 0
+        self.timer += 1
         if abs(self.contador_muda_direcao) > 50:
             self.muda_direcao *= -1
             self.contador_muda_direcao *= -1
@@ -280,9 +290,10 @@ class Saida(pygame.sprite.Sprite):
 jogador= Jogador(100,altura - 130)
 
 #carrega uma fase e cria o mundo
-if path.exists(f'fase{fase}_data'):
-    pickle_in = open(f'fase{fase}_data', 'rb')
-    mapa = pickle.load(pickle_in)
+mapa = []
+if path.exists(f'fase{fase}'):
+    with open(f'fase{fase}', 'rb') as json_in:
+        mapa = json.load(json_in)
 mundo = Mundo(mapa)
 
 # cria botões
@@ -299,9 +310,9 @@ while jogo == True:
     tela.blit(fundo,(0,0))
 
     if menu_principal == True:
-        if botao_saida.draw():
+        if botao_saida.desenha():
             jogo = False
-        if botao_inicia.draw():
+        if botao_inicia.desenha():
             menu_principal = False
     else:
         mundo.desenha()
@@ -332,7 +343,7 @@ while jogo == True:
                 mundo = reinicia_fase(fase)
                 fim_de_jogo = 0
             else:
-                if botao_reinicia.draw():
+                if botao_reinicia.desenha():
                     fase = 1
                     # reinicia fase
                     mapa = []
