@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 import json
 from pygame import mixer
-import pickle
 from os import path
 
 
