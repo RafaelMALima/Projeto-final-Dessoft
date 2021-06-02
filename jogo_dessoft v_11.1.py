@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 import json
 from pygame import mixer
-import pickle
 from os import path
 
 
@@ -68,8 +67,8 @@ def reinicia_fase(fase):
 
 #funcao colocar texto
 def desenha_texto (texto, fonte, cor_texto, x, y):
-    img = font.render(texto, True, cor_texto)
-    screen.blit(img,(x, y))
+    img = fonte.render(texto, True, cor_texto)
+    tela.blit(img,(x, y))
 
 
 class botao():
@@ -308,8 +307,8 @@ class Espinhos(pygame.sprite.Sprite):
 class Saida(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        imagem_espinho = pygame.image.load("Assets/porta_castelo.png")
-        self.image = pygame.transform.scale(imagem_espinho, (tamanho_casa, int(tamanho_casa * 1.5)))
+        imagem_saida = pygame.image.load("Assets/porta_castelo.png")
+        self.image = pygame.transform.scale(imagem_saida, (tamanho_casa, int(tamanho_casa * 1.5)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
