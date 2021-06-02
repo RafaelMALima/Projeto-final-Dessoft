@@ -212,7 +212,7 @@ class Jogador ():
 
         elif fim_de_jogo == -1:
             self.image = self.morto
-            desenha_texto('GAME OVER...', fonte_grande, azul, (largura//2)-200, altura//2)
+            desenha_texto('GAME OVER...', fonte_grande, azul, (largura//2)-200, altura//3)
             if self.rect.y > 200 :
                 self.rect.y -= 5
 
