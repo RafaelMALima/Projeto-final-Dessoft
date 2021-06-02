@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import json
 from pygame import mixer
+import pickle
 from os import path
 
 
@@ -39,11 +40,12 @@ grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group()
 grupo_saida = pygame.sprite.Group() 
 
-fundo = pygame.image.load("Assets/Fundos/castle.jpg")
+fundo = pygame.image.load("Assets/Assets/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
-imagem_restart = pygame.image.load("Assets/botao_restart_placeholder.png")
-imagem_start = pygame.image.load('Assets/botao_restart_placeholder.png')
-imagem_exit = pygame.image.load('Assets/botao_restart_placeholder.png')
+imagem_restart = pygame.image.load("Assets/morte.png")
+imagem_start = pygame.image.load('Assets/comece.png')
+imagem_exit = pygame.image.load('Assets/sair.png')
+imagem_do_botao = imagem_restart
 
 #musica tematica
 pygame.mixer.music.load('Assets/Musica_jogo.mp3')
@@ -73,8 +75,9 @@ def desenha_texto (texto, fonte, cor_texto, x, y):
 
 class botao():
     def __init__(self,x,y,image):
-
-        self.imagem = imagem_restart
+        
+        self.imagem = imagem_do_botao
+        self.imagem = pygame.transform.scale(self.imagem,(400,100))
         self.rect = self.imagem.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -209,7 +212,7 @@ class Jogador ():
 
         elif fim_de_jogo == -1:
             self.image = self.morto
-            desenha_texto('GAME OVER...', fonte_grande, azul, (largura//2)-200, altura//3)
+            desenha_texto('GAME OVER...', fonte_grande, azul, (largura//2)-200, altura//2)
             if self.rect.y > 200 :
                 self.rect.y -= 5
 
@@ -324,7 +327,9 @@ mundo = Mundo(mapa)
 
 # cria botões
 botao_reinicia = botao(largura/ 2 - 200, altura/ 2 -50, imagem_restart)
+imagem_do_botao = imagem_start
 botao_inicia = botao(largura // 2 - 350, altura // 2, imagem_start)
+imagem_do_botao = imagem_exit
 botao_saida = botao(largura // 2 + 150, altura // 2, imagem_exit)
 
 
@@ -358,7 +363,7 @@ while jogo == True:
                 mapa = []
                 mundo = reinicia_fase(fase)
                 fim_de_jogo = 0
-                jogador = Jogador(100, altura - 130)
+                jogador= Jogador(100,altura - 130)
 
         # se o jogador completar a fase
         if fim_de_jogo == 1:
@@ -369,6 +374,7 @@ while jogo == True:
                 mapa = []
                 mundo = reinicia_fase(fase)
                 fim_de_jogo = 0
+                jogador= Jogador(100,altura - 130)
             else:
                 if botao_reinicia.desenha():
                     fase = 1
