@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import json
 from pygame import mixer
+import pickle
 from os import path
 
 
@@ -110,7 +111,6 @@ class Jogador ():
         self.counter = 0
         for num in range(1, 18):
             lugar = "Assets/w{0}.png".format(num)
-            print (lugar)
             img_direita = pygame.image.load(lugar)
             img_direita = pygame.transform.scale(img_direita, (40,80))
             img_esquerda = pygame.transform.flip(img_direita, True, False)
@@ -189,7 +189,8 @@ class Jogador ():
             #checar para colisoes com a saida
             if pygame.sprite.spritecollide(self, grupo_saida, False):
                 fim_de_jogo = 1
-                print (fim_de_jogo)
+                self.rect.x = 100
+                self.rect.y = 900
 
             # atualiza a posicao do jogador
             self.rect.x += dx
@@ -307,8 +308,8 @@ class Espinhos(pygame.sprite.Sprite):
 class Saida(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        imagem_saida = pygame.image.load("Assets/porta_castelo.png")
-        self.image = pygame.transform.scale(imagem_saida, (tamanho_casa, int(tamanho_casa * 1.5)))
+        imagem_espinho = pygame.image.load("Assets/porta_castelo.png")
+        self.image = pygame.transform.scale(imagem_espinho, (tamanho_casa, int(tamanho_casa * 1.5)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
