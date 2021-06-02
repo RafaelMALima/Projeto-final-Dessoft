@@ -209,7 +209,7 @@ class Jogador ():
 
         elif fim_de_jogo == -1:
             self.image = self.morto
-            desenha_texto('GAME OVER...', fonte_grande, azul, (largura//2)-200, altura//2)
+            desenha_texto('GAME OVER...', fonte_grande, azul, (largura//2)-200, altura//3)
             if self.rect.y > 200 :
                 self.rect.y -= 5
 
@@ -358,6 +358,7 @@ while jogo == True:
                 mapa = []
                 mundo = reinicia_fase(fase)
                 fim_de_jogo = 0
+                jogador = Jogador(100, altura - 130)
 
         # se o jogador completar a fase
         if fim_de_jogo == 1:
