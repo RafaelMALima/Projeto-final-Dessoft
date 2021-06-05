@@ -39,7 +39,7 @@ grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group()
 grupo_saida = pygame.sprite.Group() 
 
-fundo = pygame.image.load("Assets/Fundos/castle.jpg")
+fundo = pygame.image.load("Assets/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 imagem_restart = pygame.image.load("Assets/morte.png")
 imagem_start = pygame.image.load('Assets/comece.png')
@@ -70,6 +70,23 @@ def reinicia_fase(fase):
 def desenha_texto (texto, fonte, cor_texto, x, y):
     img = fonte.render(texto, True, cor_texto)
     tela.blit(img,(x, y))
+
+#A funcao serve para pausar o jogo. Caso o jogo seja pausado, a função checa por botões para que ou o jogador saia do jogo, ou para que o jogador retorne a jogar
+def pause():
+    pausado = True
+    while pausado:
+        desenha_texto('Pausado',fonte_pequena, azul, (largura//2)-200, altura//3)
+        desenha_texto("Aperte c para continuar, ou q para sair",fonte_pequena, azul, (largura//2)-500, altura//3)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit
+            if event.type == pygame.KEYDOWN:
+                if event.type == pygame.K_c:
+                    pausado = False
+                if event.type == pygame.K_q:
+                    pygame.quit()
+                    quit        
 
 
 class botao():
@@ -293,10 +310,12 @@ class Inimigo(pygame.sprite.Sprite):
             self.timer = 0
         self.timer += 1
         if abs(self.contador_muda_direcao) > 50:
+            #após certo tempo se passar, representado pelo timer, o inimigo irá se virar, mudando a direção que ele anda
             self.muda_direcao *= -1
             self.contador_muda_direcao *= -1
             self.image = pygame.transform.flip(self.image, True, False)
 
+#Essa classe representa os espinhos, que matam o jogador caso ele pise neles
 class Espinhos(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -306,6 +325,8 @@ class Espinhos(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+
+#Essa classe representa a saída de cada nível, e é representada no jogo por uma porta
 class Saida(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -344,8 +365,13 @@ while jogo == True:
             jogo = False
         if botao_inicia.desenha():
             menu_principal = False
+        desenha_texto("Use suas setas para andar, e o espaço para pular!", fonte_pequena, ((255,255,255)), (largura//2)-700, 900)
+        desenha_texto("Aperte P para pausar o jogo", fonte_pequena, ((255,255,255)), (largura//2)-700, 950)
     else:
         mundo.desenha()
+
+        if pygame.key.get_pressed()[pygame.K_p] == True:
+            pause()
 
         if fim_de_jogo == 0:
             grupo_inimigo.update()
