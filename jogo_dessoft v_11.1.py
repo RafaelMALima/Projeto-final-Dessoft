@@ -39,7 +39,7 @@ grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group()
 grupo_saida = pygame.sprite.Group() 
 
-fundo = pygame.image.load("Assets/Assets/castle.jpg")
+fundo = pygame.image.load("Assets/Fundos/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 imagem_restart = pygame.image.load("Assets/morte.png")
 imagem_start = pygame.image.load('Assets/comece.png')
