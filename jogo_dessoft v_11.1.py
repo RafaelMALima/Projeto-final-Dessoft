@@ -75,18 +75,20 @@ def desenha_texto (texto, fonte, cor_texto, x, y):
 def pause():
     pausado = True
     while pausado:
-        desenha_texto('Pausado',fonte_pequena, azul, (largura//2)-200, altura//3)
-        desenha_texto("Aperte c para continuar, ou q para sair",fonte_pequena, azul, (largura//2)-500, altura//3)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit
             if event.type == pygame.KEYDOWN:
-                if event.type == pygame.K_c:
+                if event.key == pygame.K_c:
                     pausado = False
-                if event.type == pygame.K_q:
+                if event.key == pygame.K_q:
                     pygame.quit()
-                    quit        
+                    quit
+        tela.blit(fundo,(0,0))
+        desenha_texto('Pausado',fonte_grande, azul, (largura/2) - 100, altura/4)
+        desenha_texto("Aperte c para continuar, ou q para sair",fonte_pequena, azul, (largura/2) - 200, altura*0.8)
+        pygame.display.update()
 
 
 class botao():
@@ -174,6 +176,8 @@ class Jogador ():
                     self.image = self.imagens_direita[self.index] 
                 if self.direcao == -1:
                     self.image = self.imagens_esquerda[self.index]
+            if  key[pygame.K_p] == True:
+                pause()
             
             # adiciona gravidade
             self.vel_y += 1
@@ -370,8 +374,7 @@ while jogo == True:
     else:
         mundo.desenha()
 
-        if pygame.key.get_pressed()[pygame.K_p] == True:
-            pause()
+
 
         if fim_de_jogo == 0:
             grupo_inimigo.update()
