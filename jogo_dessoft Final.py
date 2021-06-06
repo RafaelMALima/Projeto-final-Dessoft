@@ -34,11 +34,13 @@ maximo_de_fases = 3
 branco= (255, 255, 255)
 azul =(0,0,255)
 
-#carrega imagens
+#declara os grupos pros sprites
 grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group()
 grupo_saida = pygame.sprite.Group() 
+grupo_gato = pygame.sprite.Group()
 
+#carrega as imagens
 fundo = pygame.image.load("Assets/Fundos/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 imagem_restart = pygame.image.load("Assets/morte.png")
@@ -209,7 +211,7 @@ class Jogador ():
                 fim_de_jogo = -1
                 print (fim_de_jogo)
             #checar para colisoes com a saida
-            if pygame.sprite.spritecollide(self, grupo_saida, False):
+            if pygame.sprite.spritecollide(self, grupo_saida, False) or pygame.sprite.spritecollide(self, grupo_gato, False):
                 fim_de_jogo = 1
                 self.rect.x = 100
                 self.rect.y = 900
@@ -273,6 +275,9 @@ class Mundo():
                     saida = Saida(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - (tamanho_casa // 2))
                     grupo_saida.add(saida)
                 conta_colunas += 1
+                if casa == 9:
+                    gato = Gato(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - (tamanho_casa // 2))
+                    grupo_saida.add(gato)
             conta_linhas += 1   
 
     def desenha(self):
@@ -334,8 +339,17 @@ class Espinhos(pygame.sprite.Sprite):
 class Saida(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        imagem_espinho = pygame.image.load("Assets/porta_castelo.png")
-        self.image = pygame.transform.scale(imagem_espinho, (tamanho_casa, int(tamanho_casa * 1.5)))
+        imagem_saida = pygame.image.load("Assets/porta_castelo.png")
+        self.image = pygame.transform.scale(imagem_saida, (tamanho_casa, int(tamanho_casa * 1.5)))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+class Gato(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        imagem_gato = pygame.image.load("Assets/porta_castelo.png")
+        self.image = pygame.transform.scale(imagem_gato, (tamanho_casa, int(tamanho_casa * 1.5)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -385,7 +399,7 @@ while jogo == True:
         grupo_saida.draw(tela)
 
         fim_de_jogo = jogador.update(fim_de_jogo)
-        # se o jogador morrer
+        # se o jogador morrerf
         if fim_de_jogo == -1:
             if botao_reinicia.desenha():
                 mapa = []
