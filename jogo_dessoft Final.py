@@ -22,7 +22,7 @@ pygame.display.set_caption("Projeto Dessoft")
 #fonte de texto
 fonte_grande= pygame.font.SysFont('Bauhaus 93', 70)
 fonte_pequena= pygame.font.SysFont('Bauhaus 93', 30)
-fonte_enorme= pygame.font.SysFont("Bauhaus 93",97)
+fonte_enorme= pygame.font.SysFont("Bauhaus 93",75)
 #define o tamanho das casas
 tamanho_casa = 50
 fim_de_jogo = 0
@@ -395,7 +395,7 @@ while jogo == True:
 
         if fim_de_jogo == 0:
             grupo_inimigo.update()
-
+        grupo_gato.draw(tela)
         grupo_inimigo.draw(tela)
         grupo_inimigo.update()
         grupo_espinho.draw(tela)
