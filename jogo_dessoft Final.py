@@ -13,9 +13,11 @@ pygame.init()
 clock = pygame.time.Clock()
 fps = 60
 
+
 #resolução do jogo
 largura = 1500
 altura = 1000
+
 
 tela = pygame.display.set_mode((largura,altura))
 pygame.display.set_caption("Projeto Dessoft")
