@@ -75,6 +75,7 @@ def desenha_texto (texto, fonte, cor_texto, x, y):
     img = fonte.render(texto, True, cor_texto)
     tela.blit(img,(x, y))
 
+    
 #A funcao serve para pausar o jogo. Caso o jogo seja pausado, a função checa por botões para que ou o jogador saia do jogo, ou para que o jogador retorne a jogar
 def pause():
     pausado = True
