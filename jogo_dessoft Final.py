@@ -41,6 +41,7 @@ grupo_inimigo = pygame.sprite.Group()
 grupo_saida = pygame.sprite.Group() 
 grupo_gato = pygame.sprite.Group()
 
+
 #carrega as imagens
 fundo = pygame.image.load("Assets/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
