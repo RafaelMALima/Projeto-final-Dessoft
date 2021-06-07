@@ -22,7 +22,7 @@ pygame.display.set_caption("Projeto Dessoft")
 #fonte de texto
 fonte_grande= pygame.font.SysFont('Bauhaus 93', 70)
 fonte_pequena= pygame.font.SysFont('Bauhaus 93', 30)
-
+fonte_enorme= pygame.font.SysFont("Bauhaus 93",97)
 #define o tamanho das casas
 tamanho_casa = 50
 fim_de_jogo = 0
@@ -42,7 +42,7 @@ grupo_saida = pygame.sprite.Group()
 grupo_gato = pygame.sprite.Group()
 
 #carrega as imagens
-fundo = pygame.image.load("Assets/Fundos/castle.jpg")
+fundo = pygame.image.load("Assets/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 imagem_restart = pygame.image.load("Assets/morte.png")
 imagem_start = pygame.image.load('Assets/comece.png')
@@ -52,7 +52,7 @@ imagem_do_botao = imagem_restart
 #musica tematica
 pygame.mixer.music.load('Assets/Musica_jogo.mp3')
 pygame.mixer.music.play (-1, 0.0, 5000)
-mixer.music.set_volume(0.1)
+mixer.music.set_volume(0.5)
 
 # funcoes para reiniciar fases
 def reinicia_fase(fase):
@@ -212,10 +212,12 @@ class Jogador ():
                 fim_de_jogo = -1
                 print (fim_de_jogo)
             #checar para colisoes com a saida
-            if pygame.sprite.spritecollide(self, grupo_saida, False) or pygame.sprite.spritecollide(self, grupo_gato, False):
+            if pygame.sprite.spritecollide(self, grupo_saida, False):
                 fim_de_jogo = 1
                 self.rect.x = 100
                 self.rect.y = 900
+            if pygame.sprite.spritecollide(self, grupo_gato, False):
+                fim_de_jogo = 2
 
             # atualiza a posicao do jogador
             self.rect.x += dx
@@ -278,7 +280,7 @@ class Mundo():
                 conta_colunas += 1
                 if casa == 9:
                     gato = Gato(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - (tamanho_casa // 2))
-                    grupo_saida.add(gato)
+                    grupo_gato.add(gato)
             conta_linhas += 1   
 
     def desenha(self):
@@ -425,6 +427,22 @@ while jogo == True:
                     mapa = []
                     mundo = reinicia_fase(fase)
                     fim_de_jogo = 0
+        elif fim_de_jogo == 2:
+            while jogo:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        quit
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_q:
+                            pygame.quit()
+                            quit
+                tela.blit(fundo,(0,0))
+                desenha_texto("Parabéns! Você conseguiu salvar o seu gato!", fonte_enorme, (0,0,1), (largura/2) - 750, altura/2 - 100)
+                desenha_texto("Pressione Q para fechar o jogo", fonte_pequena, (0,0,1),  (largura/2) - 500, altura/2 + 300)
+                pygame.display.update()
+
+            
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
