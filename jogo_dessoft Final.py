@@ -289,7 +289,7 @@ class Mundo():
                     grupo_saida.add(saida)
                 conta_colunas += 1
                 if casa == 9:
-                    gato = Gato(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - (tamanho_casa // 2))
+                    gato = Gato(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa + 10
                     grupo_gato.add(gato)
             conta_linhas += 1   
 
