@@ -55,10 +55,12 @@ imagem_start = pygame.image.load('Assets/comece.png')
 imagem_exit = pygame.image.load('Assets/sair.png')
 imagem_do_botao = imagem_restart
 
+
 #musica tematica
 pygame.mixer.music.load('Assets/Musica_jogo.mp3')
 pygame.mixer.music.play (-1, 0.0, 5000)
 mixer.music.set_volume(0.5)
+
 
 # funcoes para reiniciar fases
 def reinicia_fase(fase):
@@ -133,6 +135,7 @@ def desenha_grade():
         pygame.draw.line(tela, (255,255,255),(0,linha*tamanho_casa),(largura,linha*tamanho_casa))
         pygame.draw.line(tela, (255,255,255),(linha*tamanho_casa,0),(linha*tamanho_casa,altura))
 
+#desenha jogador
 class Jogador ():
     def __init__ (self, x, y):
         self.imagens_direita = []
@@ -293,6 +296,7 @@ class Mundo():
     def desenha(self):
         for casa in self.lista_casas:
             tela.blit(casa[0],casa[1])
+            
 # carrega um inimigo, com movimentações e o gera na tela, apenas adicionar a imagem do inimigo(bruxo)
 class Inimigo(pygame.sprite.Sprite):
     def __init__(self, x, y):
