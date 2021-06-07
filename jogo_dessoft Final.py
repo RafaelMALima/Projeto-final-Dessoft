@@ -27,6 +27,7 @@ pygame.display.set_caption("Projeto Dessoft")
 fonte_grande= pygame.font.SysFont('Bauhaus 93', 70)
 fonte_pequena= pygame.font.SysFont('Bauhaus 93', 30)
 fonte_enorme= pygame.font.SysFont("Bauhaus 93",75)
+
 #define o tamanho das casas
 tamanho_casa = 50
 fim_de_jogo = 0
@@ -99,7 +100,7 @@ def pause():
         desenha_texto("Aperte c para continuar, ou q para sair",fonte_pequena, azul, (largura/2) - 200, altura*0.8)
         pygame.display.update()
 
-
+#botao
 class botao():
     def __init__(self,x,y,image):
         
