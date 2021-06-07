@@ -462,5 +462,6 @@ while jogo == True:
 
 
     pygame.display.update()
-
+    
+#fecha o jogo
 pygame.quit()
