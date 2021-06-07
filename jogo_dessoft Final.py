@@ -33,17 +33,21 @@ maximo_de_fases = 3
 #cores
 branco= (255, 255, 255)
 azul =(0,0,255)
+vermelho = (0,255,0)
 
-#carrega imagens
+#declara os grupos pros sprites
 grupo_espinho = pygame.sprite.Group()
 grupo_inimigo = pygame.sprite.Group()
 grupo_saida = pygame.sprite.Group() 
+grupo_gato = pygame.sprite.Group()
 
+#carrega as imagens
 fundo = pygame.image.load("Assets/Fundos/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
-imagem_restart = pygame.image.load("Assets/botao_restart_placeholder.png")
-imagem_start = pygame.image.load('Assets/botao_restart_placeholder.png')
-imagem_exit = pygame.image.load('Assets/botao_restart_placeholder.png')
+imagem_restart = pygame.image.load("Assets/morte.png")
+imagem_start = pygame.image.load('Assets/comece.png')
+imagem_exit = pygame.image.load('Assets/sair.png')
+imagem_do_botao = imagem_restart
 
 #musica tematica
 pygame.mixer.music.load('Assets/Musica_jogo.mp3')
@@ -70,11 +74,31 @@ def desenha_texto (texto, fonte, cor_texto, x, y):
     img = fonte.render(texto, True, cor_texto)
     tela.blit(img,(x, y))
 
+#A funcao serve para pausar o jogo. Caso o jogo seja pausado, a função checa por botões para que ou o jogador saia do jogo, ou para que o jogador retorne a jogar
+def pause():
+    pausado = True
+    while pausado:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    pausado = False
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit
+        tela.blit(fundo,(0,0))
+        desenha_texto('Pausado',fonte_grande, azul, (largura/2) - 100, altura/4)
+        desenha_texto("Aperte c para continuar, ou q para sair",fonte_pequena, azul, (largura/2) - 200, altura*0.8)
+        pygame.display.update()
+
 
 class botao():
     def __init__(self,x,y,image):
-
-        self.imagem = imagem_restart
+        
+        self.imagem = imagem_do_botao
+        self.imagem = pygame.transform.scale(self.imagem,(400,100))
         self.rect = self.imagem.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -155,6 +179,8 @@ class Jogador ():
                     self.image = self.imagens_direita[self.index] 
                 if self.direcao == -1:
                     self.image = self.imagens_esquerda[self.index]
+            if  key[pygame.K_p] == True:
+                pause()
             
             # adiciona gravidade
             self.vel_y += 1
@@ -186,7 +212,7 @@ class Jogador ():
                 fim_de_jogo = -1
                 print (fim_de_jogo)
             #checar para colisoes com a saida
-            if pygame.sprite.spritecollide(self, grupo_saida, False):
+            if pygame.sprite.spritecollide(self, grupo_saida, False) or pygame.sprite.spritecollide(self, grupo_gato, False):
                 fim_de_jogo = 1
                 self.rect.x = 100
                 self.rect.y = 900
@@ -250,6 +276,9 @@ class Mundo():
                     saida = Saida(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - (tamanho_casa // 2))
                     grupo_saida.add(saida)
                 conta_colunas += 1
+                if casa == 9:
+                    gato = Gato(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - (tamanho_casa // 2))
+                    grupo_saida.add(gato)
             conta_linhas += 1   
 
     def desenha(self):
@@ -291,10 +320,12 @@ class Inimigo(pygame.sprite.Sprite):
             self.timer = 0
         self.timer += 1
         if abs(self.contador_muda_direcao) > 50:
+            #após certo tempo se passar, representado pelo timer, o inimigo irá se virar, mudando a direção que ele anda
             self.muda_direcao *= -1
             self.contador_muda_direcao *= -1
             self.image = pygame.transform.flip(self.image, True, False)
 
+#Essa classe representa os espinhos, que matam o jogador caso ele pise neles
 class Espinhos(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -304,11 +335,22 @@ class Espinhos(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+
+#Essa classe representa a saída de cada nível, e é representada no jogo por uma porta
 class Saida(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        imagem_espinho = pygame.image.load("Assets/porta_castelo.png")
-        self.image = pygame.transform.scale(imagem_espinho, (tamanho_casa, int(tamanho_casa * 1.5)))
+        imagem_saida = pygame.image.load("Assets/porta_castelo.png")
+        self.image = pygame.transform.scale(imagem_saida, (tamanho_casa, int(tamanho_casa * 1.5)))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+class Gato(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        imagem_gato = pygame.image.load("Assets/porta_castelo.png")
+        self.image = pygame.transform.scale(imagem_gato, (tamanho_casa, int(tamanho_casa * 1.5)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -324,7 +366,9 @@ mundo = Mundo(mapa)
 
 # cria botões
 botao_reinicia = botao(largura/ 2 - 200, altura/ 2 -50, imagem_restart)
+imagem_do_botao = imagem_start
 botao_inicia = botao(largura // 2 - 350, altura // 2, imagem_start)
+imagem_do_botao = imagem_exit
 botao_saida = botao(largura // 2 + 150, altura // 2, imagem_exit)
 
 
@@ -340,8 +384,12 @@ while jogo == True:
             jogo = False
         if botao_inicia.desenha():
             menu_principal = False
+        desenha_texto("Use suas setas para andar, e o espaço para pular!", fonte_pequena, ((255,255,255)), (largura//2)-700, 900)
+        desenha_texto("Aperte P para pausar o jogo", fonte_pequena, ((255,255,255)), (largura//2)-700, 950)
     else:
         mundo.desenha()
+
+
 
         if fim_de_jogo == 0:
             grupo_inimigo.update()
@@ -352,13 +400,13 @@ while jogo == True:
         grupo_saida.draw(tela)
 
         fim_de_jogo = jogador.update(fim_de_jogo)
-        # se o jogador morrer
+        # se o jogador morrerf
         if fim_de_jogo == -1:
             if botao_reinicia.desenha():
                 mapa = []
                 mundo = reinicia_fase(fase)
                 fim_de_jogo = 0
-                jogador = Jogador(100, altura - 130)
+                jogador= Jogador(100,altura - 130)
 
         # se o jogador completar a fase
         if fim_de_jogo == 1:
@@ -369,6 +417,7 @@ while jogo == True:
                 mapa = []
                 mundo = reinicia_fase(fase)
                 fim_de_jogo = 0
+                jogador= Jogador(100,altura - 130)
             else:
                 if botao_reinicia.desenha():
                     fase = 1
