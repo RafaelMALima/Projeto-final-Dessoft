@@ -20,6 +20,7 @@ altura = 1000
 tela = pygame.display.set_mode((largura,altura))
 pygame.display.set_caption("Projeto Dessoft")
 
+
 #fonte de texto
 fonte_grande= pygame.font.SysFont('Bauhaus 93', 70)
 fonte_pequena= pygame.font.SysFont('Bauhaus 93', 30)
