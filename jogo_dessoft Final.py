@@ -9,25 +9,20 @@ pygame.mixer.pre_init(44100, -16, 2, 512)
 mixer.init()
 pygame.init()
 
-
 clock = pygame.time.Clock()
 fps = 60
-
 
 #resolução do jogo
 largura = 1500
 altura = 1000
 
-
 tela = pygame.display.set_mode((largura,altura))
 pygame.display.set_caption("Projeto Dessoft")
-
 
 #fonte de texto
 fonte_grande= pygame.font.SysFont('Bauhaus 93', 70)
 fonte_pequena= pygame.font.SysFont('Bauhaus 93', 30)
-fonte_enorme= pygame.font.SysFont("Bauhaus 93",75)
-
+fonte_enorme= pygame.font.SysFont("Bauhaus 93",97)
 #define o tamanho das casas
 tamanho_casa = 50
 fim_de_jogo = 0
@@ -46,21 +41,19 @@ grupo_inimigo = pygame.sprite.Group()
 grupo_saida = pygame.sprite.Group() 
 grupo_gato = pygame.sprite.Group()
 
-
 #carrega as imagens
-fundo = pygame.image.load("Assets/castle.jpg")
+fundo = pygame.image.load("Assets/Fundos/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 imagem_restart = pygame.image.load("Assets/morte.png")
 imagem_start = pygame.image.load('Assets/comece.png')
 imagem_exit = pygame.image.load('Assets/sair.png')
+imagem_gato = pygame.image.load("Assets/jaula.png")
 imagem_do_botao = imagem_restart
-
 
 #musica tematica
 pygame.mixer.music.load('Assets/Musica_jogo.mp3')
 pygame.mixer.music.play (-1, 0.0, 5000)
 mixer.music.set_volume(0.5)
-
 
 # funcoes para reiniciar fases
 def reinicia_fase(fase):
@@ -82,7 +75,6 @@ def desenha_texto (texto, fonte, cor_texto, x, y):
     img = fonte.render(texto, True, cor_texto)
     tela.blit(img,(x, y))
 
-    
 #A funcao serve para pausar o jogo. Caso o jogo seja pausado, a função checa por botões para que ou o jogador saia do jogo, ou para que o jogador retorne a jogar
 def pause():
     pausado = True
@@ -102,7 +94,7 @@ def pause():
         desenha_texto("Aperte c para continuar, ou q para sair",fonte_pequena, azul, (largura/2) - 200, altura*0.8)
         pygame.display.update()
 
-#botao
+
 class botao():
     def __init__(self,x,y,image):
         
@@ -135,7 +127,6 @@ def desenha_grade():
         pygame.draw.line(tela, (255,255,255),(0,linha*tamanho_casa),(largura,linha*tamanho_casa))
         pygame.draw.line(tela, (255,255,255),(linha*tamanho_casa,0),(linha*tamanho_casa,altura))
 
-#desenha jogador
 class Jogador ():
     def __init__ (self, x, y):
         self.imagens_direita = []
@@ -289,14 +280,13 @@ class Mundo():
                     grupo_saida.add(saida)
                 conta_colunas += 1
                 if casa == 9:
-                    gato = Gato(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa + 10
+                    gato = Gato(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa + 10)
                     grupo_gato.add(gato)
             conta_linhas += 1   
 
     def desenha(self):
         for casa in self.lista_casas:
             tela.blit(casa[0],casa[1])
-            
 # carrega um inimigo, com movimentações e o gera na tela, apenas adicionar a imagem do inimigo(bruxo)
 class Inimigo(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -362,8 +352,8 @@ class Saida(pygame.sprite.Sprite):
 class Gato(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        imagem_gato = pygame.image.load("Assets/porta_castelo.png")
-        self.image = pygame.transform.scale(imagem_gato, (tamanho_casa, int(tamanho_casa * 1.5)))
+        imagem_gato = pygame.image.load("Assets/gatinho.png")
+        self.image = pygame.transform.scale(imagem_gato, (tamanho_casa, int(tamanho_casa * 0.8)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -406,11 +396,12 @@ while jogo == True:
 
         if fim_de_jogo == 0:
             grupo_inimigo.update()
-        grupo_gato.draw(tela)
+
         grupo_inimigo.draw(tela)
         grupo_inimigo.update()
         grupo_espinho.draw(tela)
         grupo_saida.draw(tela)
+        grupo_gato.draw(tela)
 
         fim_de_jogo = jogador.update(fim_de_jogo)
         # se o jogador morrerf
@@ -462,6 +453,5 @@ while jogo == True:
 
 
     pygame.display.update()
-    
-#fecha o jogo
+
 pygame.quit()
