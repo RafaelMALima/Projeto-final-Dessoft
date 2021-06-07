@@ -33,6 +33,7 @@ maximo_de_fases = 3
 #cores
 branco= (255, 255, 255)
 azul =(0,0,255)
+vermelho = (0,255,0)
 
 #declara os grupos pros sprites
 grupo_espinho = pygame.sprite.Group()
