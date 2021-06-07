@@ -48,7 +48,7 @@ imagem_exit = pygame.image.load('Assets/botao_restart_placeholder.png')
 #musica tematica
 pygame.mixer.music.load('Assets/Musica_jogo.mp3')
 pygame.mixer.music.play (-1, 0.0, 5000)
-mixer.music.set_volume(0.5)
+mixer.music.set_volume(0.1)
 
 # funcoes para reiniciar fases
 def reinicia_fase(fase):
