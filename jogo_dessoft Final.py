@@ -42,12 +42,11 @@ grupo_saida = pygame.sprite.Group()
 grupo_gato = pygame.sprite.Group()
 
 #carrega as imagens
-fundo = pygame.image.load("Assets/Fundos/castle.jpg")
+fundo = pygame.image.load("Assets/castle.jpg")
 fundo = pygame.transform.scale(fundo,(largura,altura))
 imagem_restart = pygame.image.load("Assets/morte.png")
 imagem_start = pygame.image.load('Assets/comece.png')
 imagem_exit = pygame.image.load('Assets/sair.png')
-imagem_gato = pygame.image.load("Assets/jaula.png")
 imagem_do_botao = imagem_restart
 
 #musica tematica
@@ -387,6 +386,8 @@ while jogo == True:
             jogo = False
         if botao_inicia.desenha():
             menu_principal = False
+        desenha_texto("Cat quest", fonte_enorme, ((255,255,255)), largura/2 - 200, altura / 2 - 250)
+        desenha_texto("Seu gato foi raptado por um culto maligno de magos, e só você pode salvá-lo!", fonte_pequena, ((255,255,255)), (largura//2)-700, 850)
         desenha_texto("Use suas setas para andar, e o espaço para pular!", fonte_pequena, ((255,255,255)), (largura//2)-700, 900)
         desenha_texto("Aperte P para pausar o jogo", fonte_pequena, ((255,255,255)), (largura//2)-700, 950)
     else:
