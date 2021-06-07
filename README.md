@@ -6,7 +6,7 @@ Esse jogo foi feito como o projeto final para o primeiro semestre da matéria de
 
 O fim deste projeto é meramente educacional, logo, não tem fins lucrativos.
 
-
+Vídeo introdutório do game: https://youtu.be/iK9jUj6sxpM
 Créditos e agradecimentos: 
 AntumDeluge (https://opengameart.org/users/antumdeluge) - arte do gato
 Stephen Challener - arte dos inimigos
