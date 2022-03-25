@@ -1,7 +1,13 @@
-class botao():
+import pygame
+import Funcoes
+import Constantes
+
+
+
+class Botao():
     def __init__(self, x, y, image):
 
-        self.imagem = imagem_do_botao
+        self.imagem = Funcoes.imagem_do_botao
         self.imagem = pygame.transform.scale(self.imagem, (400, 100))
         self.rect = self.imagem.get_rect()
         self.rect.x = x
@@ -20,7 +26,7 @@ class botao():
                 reinicia = True
 
                 # desenha
-        tela.blit(self.imagem, self.rect)
+        Constantes.tela.blit(self.imagem, self.rect)
 
         return reinicia
 
@@ -77,7 +83,7 @@ class Jogador():
                 if self.direcao == -1:
                     self.image = self.imagens_esquerda[self.index]
             if key[pygame.K_p] == True:
-                pause()
+                Funcoes.pause()
 
             # adiciona gravidade
             self.vel_y += 1
@@ -86,7 +92,7 @@ class Jogador():
             dy += self.vel_y
 
             # checa colisões
-            for casa in mundo.lista_casas:
+            for casa in Constantes.mundo.lista_casas:
                 # na direcao x
                 if casa[1].colliderect(self.rect.x + dx, self.rect.y, self.largura, self.altura):
                     dx = 0
@@ -102,18 +108,18 @@ class Jogador():
                         self.pula = False
 
             # checar para colisoes com inimigos
-            if pygame.sprite.spritecollide(self, grupo_inimigo, False):
+            if pygame.sprite.spritecollide(self,    Constantes.grupo_inimigo, False):
                 fim_de_jogo = -1
             # checar para colisoes com inimigos
-            if pygame.sprite.spritecollide(self, grupo_espinho, False):
+            if pygame.sprite.spritecollide(self, Constantes.grupo_espinho, False):
                 fim_de_jogo = -1
                 print(fim_de_jogo)
             # checar para colisoes com a saida
-            if pygame.sprite.spritecollide(self, grupo_saida, False):
+            if pygame.sprite.spritecollide(self, Constantes.grupo_saida, False):
                 fim_de_jogo = 1
                 self.rect.x = 100
                 self.rect.y = 900
-            if pygame.sprite.spritecollide(self, grupo_gato, False):
+            if pygame.sprite.spritecollide(self, Constantes.grupo_gato, False):
                 fim_de_jogo = 2
 
             # atualiza a posicao do jogador
@@ -134,12 +140,12 @@ class Jogador():
 
         elif fim_de_jogo == -1:
             self.image = self.morto
-            desenha_texto('GAME OVER...', fonte_grande, azul, (largura // 2) - 200, altura // 3)
+            Funcoes.desenha_texto('GAME OVER...', Constantes.fonte_grande, Constantes.azul, (Constantes.largura // 2) - 200, Constantes.altura // 3)
             if self.rect.y > 200:
                 self.rect.y -= 5
 
         # desenha o personagem na tela
-        tela.blit(self.image, self.rect)
+        Constantes.tela.blit(self.image, self.rect)
 
         return fim_de_jogo
 
@@ -154,30 +160,30 @@ class Mundo():
             conta_colunas = 0
             for casa in linha:
                 if casa == 1:
-                    img = pygame.transform.scale(imagem_chao, (tamanho_casa, tamanho_casa))
+                    img = pygame.transform.scale(imagem_chao, (Constantes.tamanho_casa, Constantes.tamanho_casa))
                     img_retangulo = img.get_rect()
-                    img_retangulo.x = conta_colunas * tamanho_casa
-                    img_retangulo.y = conta_linhas * tamanho_casa
+                    img_retangulo.x = conta_colunas * Constantes.tamanho_casa
+                    img_retangulo.y = conta_linhas * Constantes.tamanho_casa
                     casa = (img, img_retangulo)
                     self.lista_casas.append(casa)
                 if casa == 3:
-                    bruxo = Inimigo(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - 50)
-                    grupo_inimigo.add(bruxo)
+                    bruxo = Inimigo(conta_colunas * Constantes.tamanho_casa, conta_linhas * Constantes.tamanho_casa - 50)
+                    Constantes.grupo_inimigo.add(bruxo)
                 if casa == 6:
-                    espinho = Espinhos(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa + (tamanho_casa // 2))
-                    grupo_espinho.add(espinho)
+                    espinho = Espinhos(conta_colunas * Constantes.tamanho_casa, conta_linhas * Constantes.tamanho_casa + (Constantes.tamanho_casa // 2))
+                    Constantes.grupo_espinho.add(espinho)
                 if casa == 8:
-                    saida = Saida(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa - (tamanho_casa // 2))
-                    grupo_saida.add(saida)
+                    saida = Saida(conta_colunas * Constantes.tamanho_casa, conta_linhas * Constantes.tamanho_casa - (Constantes.tamanho_casa // 2))
+                    Constantes.grupo_saida.add(saida)
                 conta_colunas += 1
                 if casa == 9:
-                    gato = Gato(conta_colunas * tamanho_casa, conta_linhas * tamanho_casa + 10)
-                    grupo_gato.add(gato)
+                    gato = Gato(conta_colunas * Constantes.tamanho_casa, conta_linhas * Constantes.tamanho_casa + 10)
+                    Constantes.grupo_gato.add(gato)
             conta_linhas += 1
 
     def desenha(self):
         for casa in self.lista_casas:
-            tela.blit(casa[0], casa[1])
+            Constantes.tela.blit(casa[0], casa[1])
 
 
 # carrega um inimigo, com movimentações e o gera na tela, apenas adicionar a imagem do inimigo(bruxo)
@@ -227,7 +233,7 @@ class Espinhos(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         imagem_espinho = pygame.image.load("Assets/espinhos.png")
-        self.image = pygame.transform.scale(imagem_espinho, (tamanho_casa, tamanho_casa // 2))
+        self.image = pygame.transform.scale(imagem_espinho, (Constantes.tamanho_casa, Constantes.tamanho_casa // 2))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -238,7 +244,7 @@ class Saida(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         imagem_saida = pygame.image.load("Assets/porta_castelo.png")
-        self.image = pygame.transform.scale(imagem_saida, (tamanho_casa, int(tamanho_casa * 1.5)))
+        self.image = pygame.transform.scale(imagem_saida, (Constantes.tamanho_casa, int(Constantes.tamanho_casa * 1.5)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -248,7 +254,7 @@ class Gato(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         imagem_gato = pygame.image.load("Assets/gatinho.png")
-        self.image = pygame.transform.scale(imagem_gato, (tamanho_casa, int(tamanho_casa * 0.8)))
+        self.image = pygame.transform.scale(imagem_gato, (Constantes.tamanho_casa, int(Constantes.tamanho_casa * 0.8)))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y

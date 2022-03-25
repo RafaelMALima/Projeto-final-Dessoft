@@ -1,17 +1,22 @@
 import pygame
+import Constantes
+import Classes
+import json
+from os import path
+
 
 # funcoes para reiniciar fases
 def reinicia_fase(fase):
-    jogador = Jogador(100, altura - 130)
-    grupo_inimigo.empty()
-    grupo_espinho.empty()
-    grupo_saida.empty()
+    jogador = Classes.Jogador(100, Constantes.altura - 130)
+    Constantes.grupo_inimigo.empty()
+    Constantes.grupo_espinho.empty()
+    Constantes.grupo_saida.empty()
     # carrega uma fase e cria o mundo
     mapa = []
     if path.exists(f'fase{fase}'):
         with open(f'fase{fase}', 'rb') as json_in:
             mapa = json.load(json_in)
-    mundo = Mundo(mapa)
+    mundo = Classes.Mundo(mapa)
 
     return mundo
 
@@ -19,7 +24,7 @@ def reinicia_fase(fase):
 # funcao colocar texto
 def desenha_texto(texto, fonte, cor_texto, x, y):
     img = fonte.render(texto, True, cor_texto)
-    tela.blit(img, (x, y))
+    Constantes.tela.blit(img, (x, y))
 
 
 # A funcao serve para pausar o jogo. Caso o jogo seja pausado, a função checa por botões para que ou o jogador saia
@@ -37,12 +42,12 @@ def pause():
                 if event.key == pygame.K_q:
                     pygame.quit()
                     quit
-        tela.blit(fundo, (0, 0))
-        desenha_texto('Pausado', fonte_grande, azul, (largura / 2) - 100, altura / 4)
-        desenha_texto("Aperte c para continuar, ou q para sair", fonte_pequena, azul, (largura / 2) - 200, altura * 0.8)
+        Constantes.tela.blit(Constantes.fundo, (0, 0))
+        desenha_texto('Pausado', Constantes.fonte_grande, Constantes.azul, (Constantes.largura / 2) - 100, Constantes.altura / 4)
+        desenha_texto("Aperte c para continuar, ou q para sair", Constantes.fonte_pequena, Constantes.azul, (Constantes.largura / 2) - 200, Constantes.altura * 0.8)
         pygame.display.update()
 
 def desenha_grade():
     for linha in range(0, 30):
-        pygame.draw.line(tela, (255, 255, 255), (0, linha * tamanho_casa), (largura, linha * tamanho_casa))
-        pygame.draw.line(tela, (255, 255, 255), (linha * tamanho_casa, 0), (linha * tamanho_casa, altura))
+        pygame.draw.line(Constantes.tela, (255, 255, 255), (0, linha * Constantes.tamanho_casa), (Constantes.largura, linha * Constantes.tamanho_casa))
+        pygame.draw.line(Constantes.tela, (255, 255, 255), (linha * Constantes.tamanho_casa, 0), (linha * Constantes.tamanho_casa, Constantes.altura))

@@ -1,4 +1,5 @@
 import pygame
+import Classes
 
 clock = pygame.time.Clock()
 fps = 60
@@ -39,18 +40,18 @@ imagem_start = pygame.image.load('Assets/comece.png')
 imagem_exit = pygame.image.load('Assets/sair.png')
 imagem_do_botao = imagem_restart
 
-jogador = Jogador(100, altura - 130)
+jogador = Classes.Jogador(100, altura - 130)
 
 # carrega uma fase e cria o mundo
 mapa = []
 
-mundo = Mundo(mapa)
+mundo = Classes.Mundo(mapa)
 
 # cria botões
-botao_reinicia = botao(largura / 2 - 200, altura / 2 - 50, imagem_restart)
+botao_reinicia = Classes.Botao(largura / 2 - 200, altura / 2 - 50, imagem_restart)
 imagem_do_botao = imagem_start
-botao_inicia = botao(largura // 2 - 350, altura // 2, imagem_start)
+botao_inicia = Classes.Botao(largura // 2 - 350, altura // 2, imagem_start)
 imagem_do_botao = imagem_exit
-botao_saida = botao(largura // 2 + 150, altura // 2, imagem_exit)
+botao_saida = Classes.Botao(largura // 2 + 150, altura // 2, imagem_exit)
 
 jogo = True
