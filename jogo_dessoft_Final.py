@@ -7,6 +7,7 @@ pygame.init()
 
 
 while Constantes.jogo == True:
+    print(Constantes.mapa)
 
     Constantes.clock.tick(Constantes.fps)
 
@@ -14,9 +15,9 @@ while Constantes.jogo == True:
 
     if Constantes.menu_principal == True:
         if Constantes.botao_saida.desenha():
-            jogo = False
+            Constantes.jogo = False
         if Constantes.botao_inicia.desenha():
-            menu_principal = False
+            Constantes.menu_principal = False
         Funcoes.desenha_texto("Cat quest", Constantes.fonte_enorme, ((255, 255, 255)), Constantes.largura / 2 - 200, Constantes.altura / 2 - 250)
         Funcoes.desenha_texto("Seu gato foi raptado por um culto maligno de magos, e só você pode salvá-lo!", Constantes.fonte_pequena,
                       ((255, 255, 255)), (Constantes.largura // 2) - 700, 850)
@@ -24,7 +25,7 @@ while Constantes.jogo == True:
                       (Constantes.largura // 2) - 700, 900)
         Funcoes.desenha_texto("Aperte P para pausar o jogo", Constantes.fonte_pequena, ((255, 255, 255)), (Constantes.largura // 2) - 700, 950)
     else:
-        mundo.desenha()
+        Constantes.mundo.desenha()
 
         if Constantes.fim_de_jogo == 0:
             Constantes.grupo_inimigo.update()
@@ -35,34 +36,34 @@ while Constantes.jogo == True:
         Constantes.grupo_saida.draw(Constantes.tela)
         Constantes.grupo_gato.draw(Constantes.tela)
 
-        fim_de_jogo = jogador.update(fim_de_jogo)
+        Constantes.fim_de_jogo = Constantes.jogador.update(Constantes.fim_de_jogo)
         # se o jogador morrerf
-        if fim_de_jogo == -1:
+        if Constantes.fim_de_jogo == -1:
             if Constantes.botao_reinicia.desenha():
-                mapa = []
-                mundo = Funcoes.reinicia_fase(fase)
-                fim_de_jogo = 0
-                jogador = Classes.Jogador(100, Constantes.altura - 130)
+                Constantes.mapa = []
+                Constantes.mundo = Funcoes.reinicia_fase(Constantes.fase)
+                Constantes.fim_de_jogo = 0
+                Constantes.jogador = Classes.Jogador(100, Constantes.altura - 130)
 
         # se o jogador completar a fase
-        if fim_de_jogo == 1:
+        if Constantes.fim_de_jogo == 1:
             # reinicia o jogo a avança para o próximo nível
-            fase += 1
-            if fase <= Constantes.maximo_de_fases:
+            Constantes.fase += 1
+            if Constantes.fase <= Constantes.maximo_de_fases:
                 # reinicia fase
-                mapa = []
-                mundo = Funcoes.reinicia_fase(fase)
-                fim_de_jogo = 0
-                jogador = Classes.Jogador(100, Constantes.altura - 130)
+                Constantes.mapa = []
+                Constantes.mundo = Funcoes.reinicia_fase(Constantes.fase)
+                Constantes.fim_de_jogo = 0
+                Constantes.jogador = Classes.Jogador(100, Constantes.altura - 130)
             else:
                 if Constantes.botao_reinicia.desenha():
-                    fase = 1
+                    Constantes.fase = 1
                     # reinicia fase
-                    mapa = []
-                    mundo = Funcoes.reinicia_fase(fase)
-                    fim_de_jogo = 0
-        elif fim_de_jogo == 2:
-            while jogo:
+                    Constantes.mapa = []
+                    Constantes.mundo = Funcoes.reinicia_fase(Constantes.fase)
+                    Constantes.fim_de_jogo = 0
+        elif Constantes.fim_de_jogo == 2:
+            while Constantes.jogo:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         pygame.quit()
@@ -80,7 +81,7 @@ while Constantes.jogo == True:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            jogo = False
+            Constantes.jogo = False
 
     pygame.display.update()
 
