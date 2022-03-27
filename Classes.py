@@ -1,13 +1,13 @@
 import pygame
 import Funcoes
 import Constantes
-
+pygame.init()
 
 
 class Botao():
     def __init__(self, x, y, image):
 
-        self.imagem = Funcoes.imagem_do_botao
+        self.imagem = Constantes.imagem_do_botao
         self.imagem = pygame.transform.scale(self.imagem, (400, 100))
         self.rect = self.imagem.get_rect()
         self.rect.x = x

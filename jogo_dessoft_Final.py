@@ -3,16 +3,16 @@ from pygame.locals import *
 import Constantes
 import Funcoes
 import Classes
+pygame.init()
 
 
-
-while jogo == True:
+while Constantes.jogo == True:
 
     Constantes.clock.tick(Constantes.fps)
 
     Constantes.tela.blit(Constantes.fundo, (0, 0))
 
-    if menu_principal == True:
+    if Constantes.menu_principal == True:
         if Constantes.botao_saida.desenha():
             jogo = False
         if Constantes.botao_inicia.desenha():
@@ -26,7 +26,7 @@ while jogo == True:
     else:
         mundo.desenha()
 
-        if fim_de_jogo == 0:
+        if Constantes.fim_de_jogo == 0:
             Constantes.grupo_inimigo.update()
 
         Constantes.grupo_inimigo.draw(Constantes.tela)

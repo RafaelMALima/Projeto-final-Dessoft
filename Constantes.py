@@ -1,5 +1,9 @@
 import pygame
+
 import Classes
+
+pygame.init()
+pygame.font.init()
 
 clock = pygame.time.Clock()
 fps = 60

@@ -3,7 +3,7 @@ import Constantes
 import Classes
 import json
 from os import path
-
+pygame.init()
 
 # funcoes para reiniciar fases
 def reinicia_fase(fase):
