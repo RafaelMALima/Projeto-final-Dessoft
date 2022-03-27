@@ -5,9 +5,10 @@ import Funcoes
 import Classes
 pygame.init()
 
+Constantes.mundo = Funcoes.reinicia_fase(1)
 
 while Constantes.jogo == True:
-    print(Constantes.mapa)
+    
 
     Constantes.clock.tick(Constantes.fps)
 
@@ -25,7 +26,7 @@ while Constantes.jogo == True:
                       (Constantes.largura // 2) - 700, 900)
         Funcoes.desenha_texto("Aperte P para pausar o jogo", Constantes.fonte_pequena, ((255, 255, 255)), (Constantes.largura // 2) - 700, 950)
     else:
-        Constantes.mundo.desenha()
+        Classes.Mundo.desenha(Constantes.mundo)
 
         if Constantes.fim_de_jogo == 0:
             Constantes.grupo_inimigo.update()

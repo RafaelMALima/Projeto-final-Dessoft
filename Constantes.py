@@ -1,6 +1,7 @@
 import pygame
-
 import Classes
+from os import path
+
 
 pygame.init()
 pygame.font.init()
