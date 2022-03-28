@@ -30,12 +30,26 @@ class Botao():
 
         return reinicia
 
-class Jogador():
-    def __init__(self, x, y):
-        self.imagens_direita = []
-        self.imagens_esquerda = []
+class entidade(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        self.imagem = null
         self.index = 0
         self.counter = 0
+    def faz_retangulo(imagem,x,y):
+        self.rect = imagem.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+class entidade_animada(entidade):
+    def __init__(self,x,y):
+        self.imagens_direita = [] 
+        self_imagens_esquerda = []
+        self.index = 0
+        self.counter = 0
+
+
+class Jogador(entidade_animada):
+    def __init__(self, x, y):
         for num in range(1, 18):
             lugar = "Assets/w{0}.png".format(num)
             img_direita = pygame.image.load(lugar)
@@ -46,9 +60,7 @@ class Jogador():
         self.morto = pygame.image.load('Assets/fantasma.png')
         self.morto = pygame.transform.scale(self.morto, (40, 80))
         self.image = self.imagens_direita[self.index]
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.faz_retangulo(self.x,self.y,self.image)
         self.altura = self.image.get_height()
         self.largura = self.image.get_width()
         self.vel_y = 0
