@@ -7,7 +7,7 @@ pygame.init()
 
 # funcoes para reiniciar fases
 def reinicia_fase(fase):
-    jogador = Classes.Jogador(100, Constantes.altura - 130)
+    Constantes.jogador = Classes.Jogador(100, Constantes.altura - 130)
     Constantes.grupo_inimigo.empty()
     Constantes.grupo_espinho.empty()
     Constantes.grupo_saida.empty()
