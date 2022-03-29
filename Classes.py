@@ -249,21 +249,18 @@ class Espinhos(entidade, pygame.sprite.Sprite):
 
 
 # Essa classe representa a saída de cada nível, e é representada no jogo por uma porta
-class Saida(pygame.sprite.Sprite):
+class Saida(entidade, pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
+        entidade.__init__(self,x,y)
         imagem_saida = pygame.image.load("Assets/porta_castelo.png")
         self.image = pygame.transform.scale(imagem_saida, (Constantes.tamanho_casa, int(Constantes.tamanho_casa * 1.5)))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.faz_retangulo(self.image, x, y)
 
-
-class Gato(pygame.sprite.Sprite):
+class Gato(entidade, pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
+        entidade.__init__(self,x,y)
         imagem_gato = pygame.image.load("Assets/gatinho.png")
         self.image = pygame.transform.scale(imagem_gato, (Constantes.tamanho_casa, int(Constantes.tamanho_casa * 0.8)))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.faz_retangulo(self.image, x, y)
