@@ -200,9 +200,10 @@ class Mundo():
 
 
 # carrega um inimigo, com movimentações e o gera na tela, apenas adicionar a imagem do inimigo(bruxo)
-class Inimigo(pygame.sprite.Sprite):
+class Inimigo(entidade_animada, pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
+        entidade_animada.__init__(self, x, y)
         self.imagens = []
         self.imagens_invertidas = []
         for i in range(1, 6):
@@ -211,29 +212,25 @@ class Inimigo(pygame.sprite.Sprite):
             self.imagens.append(imagens_mago)
         for i in range(len(self.imagens)):
             self.imagens_invertidas.append(pygame.transform.flip(self.imagens[i], True, False))
-        self.indice = 0
-        self.image = self.imagens[self.indice]
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.image = self.imagens[self.index]
+        self.faz_retangulo(self.image, x, y)
         self.muda_direcao = 1
         self.contador_muda_direcao = 0
-        self.timer = 0
 
     def update(self):
         self.rect.x += self.muda_direcao
         self.contador_muda_direcao += 1
-        if self.timer == 15:
+        if self.counter == 15:
             if self.muda_direcao > 0:
-                self.image = self.imagens[self.indice]
+                self.image = self.imagens[self.index]
             else:
-                self.image = self.imagens_invertidas[self.indice]
-            if self.indice < len(self.imagens) - 1:
-                self.indice += 1
+                self.image = self.imagens_invertidas[self.index]
+            if self.index < len(self.imagens) - 1:
+                self.index += 1
             else:
-                self.indice = 0
-            self.timer = 0
-        self.timer += 1
+                self.index = 0
+            self.counter = 0
+        self.counter += 1
         if abs(self.contador_muda_direcao) > 50:
             # após certo tempo se passar, representado pelo timer, o inimigo irá se virar, mudando a direção que ele anda
             self.muda_direcao *= -1
@@ -242,14 +239,13 @@ class Inimigo(pygame.sprite.Sprite):
 
 
 # Essa classe representa os espinhos, que matam o jogador caso ele pise neles
-class Espinhos(pygame.sprite.Sprite):
+class Espinhos(entidade, pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
+        entidade.__init__(self,x,y)
         imagem_espinho = pygame.image.load("Assets/espinhos.png")
         self.image = pygame.transform.scale(imagem_espinho, (Constantes.tamanho_casa, Constantes.tamanho_casa // 2))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.faz_retangulo(self.image, x, y)
 
 
 # Essa classe representa a saída de cada nível, e é representada no jogo por uma porta
